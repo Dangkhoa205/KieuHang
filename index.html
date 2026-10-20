@@ -851,10 +851,30 @@ function setupMusic(){
 
 function tryPlayMusic(){
   if(!AUTOPLAY) { updateMusicIcon(); return; }
-  bgm.play().then(()=>{
+  if(musicReady || !bgm.paused) return;
+  return bgm.play().then(()=>{
     musicReady = true;
     updateMusicIcon();
   }).catch(()=>{ updateMusicIcon(); });
+}
+
+/* Bật nhạc sớm nhất có thể:
+   1) thử phát ngay khi vào trang (một số trình duyệt cho phép)
+   2) nếu bị chặn -> phát ở lần chạm/bấm/cuộn đầu tiên vào BẤT KỲ chỗ nào */
+function autoStartMusic(){
+  if(!AUTOPLAY) return;
+  tryPlayMusic();
+  const events = ["pointerdown","touchstart","click","keydown","wheel"];
+  const unlock = (e)=>{
+    // chạm vào chính nút nhạc thì để nút đó tự xử lý
+    if(e && e.target && e.target.closest && e.target.closest("#musicBtn")) return;
+    if(musicReady || !bgm.paused){ events.forEach(ev=> document.removeEventListener(ev, unlock, true)); return; }
+    bgm.muted = MUTED;
+    tryPlayMusic();
+  };
+  events.forEach(ev=> document.addEventListener(ev, unlock, {capture:true, passive:true}));
+  bgm.addEventListener("play",  updateMusicIcon);
+  bgm.addEventListener("pause", updateMusicIcon);
 }
 
 function updateMusicIcon(){
@@ -868,6 +888,7 @@ musicBtn.addEventListener("click", ()=>{
     bgm.play().catch(()=>{});
   } else {
     bgm.pause();
+    musicReady = true;   // người xem tự tắt -> không tự bật lại
   }
   updateMusicIcon();
 });
@@ -1280,6 +1301,7 @@ $("#replayBtn").addEventListener("click", ()=>{
 window.addEventListener("DOMContentLoaded", ()=>{
   initBackground();
   setupMusic();
+  autoStartMusic();
   runLoader();
   initEnvelope();
 });
