@@ -1,0 +1,18 @@
+HƯỚNG DẪN BỎ ẢNH VÀO THƯ MỤC "anh"
+====================================
+
+1) Đặt tên ảnh theo số thứ tự:  1.jpg, 2.jpg, 3.jpg, 4.jpg ...
+   - Nhận đuôi: .jpg  .jpeg  .png  .webp
+   - Tối đa 8 ảnh. Nên dùng 4-6 ảnh.
+   - Ảnh hiện theo thứ tự số (thiếu số nào thì tự bỏ qua).
+   - Ảnh .HEIC của iPhone trình duyệt KHÔNG đọc được -> đổi sang .jpg trước.
+   - Ảnh dọc hoặc vuông là đẹp nhất. Mỗi ảnh nên dưới 1MB để trang tải nhanh.
+
+2) Nhạc nền (không bắt buộc): bỏ file nhạc vào thư mục "anh", đặt tên  nhac.mp3
+
+3) Sửa chú thích dưới mỗi ảnh: mở index.html, tìm "captions:" và sửa từng dòng
+   (dòng 1 cho ảnh 1, dòng 2 cho ảnh 2...).
+
+4) Mở index.html bằng Chrome để xem thử.
+
+Chưa có ảnh nào thì trang tự hiện 3 ảnh giả để xem bố cục.
